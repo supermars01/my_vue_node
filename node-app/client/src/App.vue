@@ -3,13 +3,15 @@
     <router-view/>
   </div>
 </template>
+
 <script>
 import jwt_decode from "jwt-decode";
 export default {
   name: "app",
   created() {
-    if (localStorage.eleToken) {
+    if (localStorage.eleToken) { //看下tonken是存在吗
       const decode = jwt_decode(localStorage.eleToken);
+      //token 存到vuex中
       this.$store.dispatch("setAuthentication", !this.isEmpty(decode));
       this.$store.dispatch("setUser", decode);
     }
@@ -26,11 +28,13 @@ export default {
   }
 };
 </script>
-<style lang="stylus">
+
+
+<style>
 html,
 body,
-#app
-  width 100%;
-  height 100%;
-
+#app {
+  width: 100%;
+  height: 100%;
+}
 </style>

@@ -36,18 +36,18 @@ router.post("/register",async(req,res) => {
                identity:req.body.identity
            })
            //npm install bcrypt -S 密码加密操作
-           bcrypt.genSalt(10, function(err, salt) {
-            bcrypt.hash(newUser.password, salt, async(err, hash) => {
-                // Store hash in your password DB.
-                if(err) throw err;
-                newUser.password = hash;
-                console.log('000')
-                await mongoHelper.insertOne("test",newUser);
-                // newUser.save().then(user => res.json(user))
-                //               .catch(err => console.log(err+',mmmm'));
-                return res.status(200).json(newUser)
+            bcrypt.genSalt(10, function(err, salt) {
+                bcrypt.hash(newUser.password, salt, async(err, hash) => {
+                    // Store hash in your password DB.
+                    if(err) throw err;
+                    newUser.password = hash;
+                    console.log('000')
+                    await mongoHelper.insertOne("test",newUser);
+                    // newUser.save().then(user => res.json(user))
+                    //               .catch(err => console.log(err+',mmmm'));
+                    return res.status(200).json(newUser)
+                });
             });
-         });
        }
     }).catch(err => console.log(err+',mmmm')).finally(console.log(2));
 })
@@ -63,6 +63,7 @@ router.post("/login",async(req,res) => {
         }
         //密码匹配
         bcrypt.compare(password, user.password).then(isMatch =>{
+            console.log(isMatch);
             if(isMatch) {
                 const rule = {
                     id:user.id,
@@ -94,4 +95,98 @@ router.get("/current",passport.authenticate("jwt",{session:false}),(req,res) => 
     res.json(req.user);
 })
 
+//$route GET api/users
+//@desc 返回的请求的json数据
+//@access 查询出所有的用户数据
+router.get("/",passport.authenticate("jwt",{session:false}),(req,res) => {
+    mongoHelper.find('test','').then(userlist => {
+        if(!userlist) {
+            return res.status(404).json('没有任何内容');
+        }
+        res.json(userlist);
+    })
+    .catch(err => res.status(404).json(err));
+})
+
+//$route POST api/users/edit
+//@desc 编辑用户信息接口
+//@access Private
+router.post("/edit",passport.authenticate("jwt",{session:false}),
+  (req,res)=> {
+    const _id = req.body.id
+    // const _id = req.params.id
+    console.log(req.body.id)
+    const UserFields = {};
+    if (req.body.name) UserFields.name = req.body.name;
+    if (req.body.email) UserFields.email = req.body.email;
+    if (req.body.password) UserFields.password = req.body.password;
+    if (req.body.identity) UserFields.identity = req.body.identity;
+    console.log(JSON.stringify(UserFields))
+    mongoHelper.findOneById("test",_id).then(user_id=> {
+        console.log(JSON.stringify(user_id))
+        if(!user_id){
+            return res.status(404).json('当前用户信息异常')
+        }
+        //密码匹配 输入的密码
+        if(user_id.password == req.body.password) {
+            console.log(1)
+            mongoHelper.updateOneById("test",req.body.id,UserFields)
+            .then(user_edit => {
+                res.json(user_edit);
+            })
+            .catch(err => res.status(404).json(err));
+        } else {
+            bcrypt.genSalt(10, function(err, salt) {
+                bcrypt.hash(UserFields.password, salt, async(err, hash) => {
+                    if(err) throw err;
+                    UserFields.password = hash;
+                    console.log(hash)
+                    mongoHelper.updateOneById("test",req.params.id,UserFields)
+                    .then(user_edit => {
+                        res.json(user_edit);
+                    })
+                    .catch(err => res.status(404).json(err));
+                });
+            });
+        }
+    })
+    
+})
+//$route POST api/users/delete:id
+//@desc 删除信息接口
+//@access Private
+//第一种
+// router.delete("/delete/:id",passport.authenticate("jwt",{session:false}),(req,res) => {
+//     // {_id:req.params.id}
+//     mongoHelper.deleteOneById("test",req.params.id).then(profile_delet => {
+//         res.json('删除成功') 
+//     })
+//     .catch(err => res.status(404).json("删除失败"));
+// })
+// 第二种
+router.delete("/delete",passport.authenticate("jwt",{session:false}),(req,res) => {
+    // {_id:req.params.id}
+    const _id = req.body.id;
+    console.log(req.body)
+    mongoHelper.deleteOneById("test",_id).then(profile_delet => {
+        res.json('删除成功') 
+    })
+    .catch(err => res.status(404).json("删除失败"));
+})
+//$route POST api/users/screen
+//@desc 查询信息接口
+//@access Private
+//查询
+router.post("/screen",passport.authenticate("jwt",{session:false}),(req,res) => {
+    const name = req.body.name;
+    // 查询数据库
+    mongoHelper.find("test",{name:eval("/"+name+"/i")}).then(user => {
+        console.log(req.body)
+        if(!user){
+            return res.status(404).json('用户不存在')
+        }
+        res.json(user);
+    })
+    .catch(err => res.status(404).json("查询失败"));
+})
 module.exports = router;

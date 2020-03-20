@@ -2,7 +2,7 @@
     <div class="home">
         <div class="container">
             <h1 class="title">管理后台</h1>
-            <p class="lead"> 实现node+vue后台，小程序为前台的一个体系产品 </p>
+            <p class="lead"> xxxxx </p>
         </div>
     </div>
 </template>

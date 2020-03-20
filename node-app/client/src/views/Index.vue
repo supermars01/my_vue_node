@@ -1,4 +1,5 @@
 <template>
+<!-- 主容器 -->
     <div class="index">
        <HeadNav></HeadNav>
        <LeftMenu></LeftMenu> 

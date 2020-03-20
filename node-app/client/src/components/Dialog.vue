@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import {add_edit} from '../api/profile'
 export default {
   name: "Dialog",
   props: {
@@ -93,9 +94,11 @@ export default {
       this.$refs[form].validate(valid => {
         if (valid) {
           //表单数据验证完成之后，提交数据;
-          const url =
-            this.dialog.option == "add" ? "add" : `edit/${this.form.id}`;
-          this.$axios.post(`/api/profile/${url}`, this.form).then(res => {
+          // const url =
+          // this.dialog.option == "add" ? "add" : `edit/${this.form.id}`;
+          // this.$axios.post(`/api/profile/${url}`, this.form).then(res => {
+          const url =  this.dialog.option == "add" ? "add" : "edit";
+          add_edit[url](this.form).then(res => {
             // 操作成功
             this.$message({
               message: "保存成功！",

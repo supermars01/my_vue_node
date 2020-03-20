@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import {login} from '../api/users'
 import jwt_decode from "jwt-decode"; //token 解析
 
 export default {
@@ -53,7 +54,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$axios.post("/api/users/login", this.loginUser).then(res => {
+          login(this.loginUser).then(res => {
+          // this.$axios.post("/api/users/login", this.loginUser).then(res => {
             // console.log(JSON.stringify(res))
             // 登录成功
             const { token } = res.data;

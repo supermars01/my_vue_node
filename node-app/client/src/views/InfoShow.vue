@@ -1,4 +1,5 @@
 <template>
+<!-- 用户信息 -->
     <div class="infoshow">
        <el-row type="flex" class="row-bg" justify="center">
            <el-col :span='8'>

@@ -87,7 +87,7 @@ router.get("/:id",passport.authenticate("jwt",{session:false}),async(req,res) =>
 //$route POST api/profile/edit
 //@desc 编辑信息接口
 //@access Private
-router.post("/edit/:id",passport.authenticate("jwt",{session:false}),
+router.post("/edit",passport.authenticate("jwt",{session:false}),
   (req,res)=> {
     const profileFields = {};
     if (req.body.type) profileFields.type = req.body.type;
@@ -100,8 +100,8 @@ router.post("/edit/:id",passport.authenticate("jwt",{session:false}),
     // mongoHelper.updateOneById("test2",req.params.id,profileFields)
     // return res.status(200).json(profileFields);
     console.log(JSON.stringify(profileFields))
-    console.log(req.params.id)
-    mongoHelper.updateOneById("test2",req.params.id,profileFields)
+    console.log(req.body.id)
+    mongoHelper.updateOneById("test2",req.body.id,profileFields)
     .then(profile_edit => {
         res.json(profile_edit);
     })
