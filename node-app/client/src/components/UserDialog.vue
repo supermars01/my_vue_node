@@ -47,7 +47,8 @@
 </template>
 
 <script>
-import {register_edit} from '../api/users'
+// import {register_edit} from '../api/users'
+import {register,edit} from '../api/users'
 export default {
   name: "Dialog",
   props: {
@@ -88,28 +89,24 @@ export default {
       this.$refs[form].validate(valid => {
         if (valid) {
           //表单数据验证完成之后，提交数据;
-          let reg = this.dialog.option == "register" ? "register" : "edit";
-          console.log(register_edit[reg])
-          register_edit[reg](this.form).then(res => {
+          let request = this.dialog.option == "register" ? register : edit;
+          request(this.form).then(res => {
               // 注册成功
-                this.$message({
-                  message: "保存成功！",
-                  type: "success"
-                });
+              console.log(this.dialog.option == "register")
+                if(this.dialog.option == "register") {
+                  this.$message({
+                    message: "添加成功！",
+                    type: "success"
+                  });
+                } else {
+                  this.$message({
+                    message: "修改成功",
+                    type: "success"
+                  });
+                }
                 this.dialog.show = false;
                 this.$emit("update");
           })
-
-          // // this.$axios.post(`/api/users/${url}`, this.form)
-          //   .then(res => {
-          //     // 注册成功
-          //     this.$message({
-          //       message: "保存成功！",
-          //       type: "success"
-          //     });
-          //     this.dialog.show = false;
-          //     this.$emit("update");
-          // });
         }
       });
     }

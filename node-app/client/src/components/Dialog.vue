@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import {add_edit} from '../api/profile'
+import {add,edit} from '../api/profile'
 export default {
   name: "Dialog",
   props: {
@@ -97,8 +97,8 @@ export default {
           // const url =
           // this.dialog.option == "add" ? "add" : `edit/${this.form.id}`;
           // this.$axios.post(`/api/profile/${url}`, this.form).then(res => {
-          const url =  this.dialog.option == "add" ? "add" : "edit";
-          add_edit[url](this.form).then(res => {
+          const url =  this.dialog.option == "add" ? add : edit;
+          url(this.form).then(res => {
             // 操作成功
             this.$message({
               message: "保存成功！",

@@ -22,7 +22,7 @@
                     <el-button type="primary" size ="small" icon="search" @click='onScreeoutMoney()'>筛选</el-button>
                 </el-form-item>
                  <el-form-item class="btnRight">
-                    <el-button type="primary" size ="small" icon="view" v-if="user.identity == 'manager'"  @click='onAddMoney()'>添加</el-button>
+                    <el-button type="primary" size ="small" icon="view" v-if="user.identity!='employee'"  @click='onAddMoney()'>添加</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -110,6 +110,7 @@
                     align='center'
                     label="操作"
                     fixed="right"
+                    v-if="user.identity!='employee'"
                     width="180">
                     <template slot-scope='scope'>
                         <el-button 

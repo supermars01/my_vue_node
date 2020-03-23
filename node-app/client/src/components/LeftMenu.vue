@@ -27,8 +27,13 @@
                             </el-menu-item> 
                         </router-link>
                     </el-submenu>
-                    
                 </template>
+                <router-link to="/home">
+                    <el-menu-item index="0">
+                        <i class="fa fa-margin fa-server"></i>
+                        <span slot="title">商家入驻</span>
+                    </el-menu-item>
+                </router-link>
              </el-menu>
          </el-col>
     </el-row>

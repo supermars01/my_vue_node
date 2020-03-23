@@ -1,16 +1,12 @@
 import axios from 'axios'
 const baseUrl = ''
 //注册
-const register = params => {
+export const register = params => {
     return axios.post(`${baseUrl}/api/users/register`, params) 
 }
 // 编辑用户信息接口
-const edit = params => {
+export const edit = params => {
     return axios.post(`${baseUrl}/api/users/edit`, params) 
-}
-export const register_edit = {
-    register,
-    edit
 }
 // 登录
 export const login = params => {
