@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
+const ueditor = require("ueditor");
+const path = require('path');
 //获取时间
 function getNowFormatDate() {
     var date = new Date();
@@ -46,10 +47,7 @@ router.post('/addPicture',upload.single('file'),function(req,res,next){
 //     console.log(req.files)//req.file文件的具体信息
 //     res.send({ret_code: datatime});
 // });
-
-
-var ueditor = require("ueditor");
-var path = require('path');
+   
 // ueditor(path.join(__dirname, '../public/')
 router.use("/morePicture",ueditor(path.join(process.cwd(),'public'), function (req, res, next) {
     // ueditor 客户发起上传图片请求
