@@ -26,6 +26,7 @@ axios.interceptors.request.use(config => {
 })
 //响应拦截
 axios.interceptors.response.use(response => {
+    console.log(response)
     //结束加载动画
     endLoading();
     return response;

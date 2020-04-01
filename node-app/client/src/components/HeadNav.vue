@@ -1,9 +1,12 @@
 <template>
     <header class="head-nav"> 
         <el-row :gutter="10">
-            <el-col :span="6" class="logo-container">
-                <img src="../assets/logo.png" alt="" class="logo">
+            <el-col :span="2" class="logo-container">
+                <img src="../assets/logo1.png" alt="" class="logo">
                 <!-- <span class="title">管理后台系统</span> -->
+            </el-col>
+            <el-col :span="3" class="logo-container">
+               <router-link to="/classfix" tag="span" style="cursor: pointer;">类别管理</router-link>
             </el-col>
             <el-col :span="6" class="user">
                 <div class="user-info">
@@ -76,7 +79,7 @@ export default {
 }
 .logo-container {
   line-height: 60px;
-  min-width: 400px;
+  min-width: 300px;
 }
 .logo {
   height: 50px;

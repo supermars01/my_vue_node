@@ -1,4 +1,5 @@
 <template>
+<!-- 侧边栏 -->
     <el-row class="menu_page">
          <el-col>
              <el-menu
@@ -28,7 +29,7 @@
                         </router-link>
                     </el-submenu>
                 </template>
-                <router-link to="/home">
+                <router-link to="/business">
                     <el-menu-item index="0">
                         <i class="fa fa-margin fa-server"></i>
                         <span slot="title">商家入驻</span>

@@ -52,15 +52,17 @@ router.post("/register",async(req,res) => {
     }).catch(err => console.log(err+',mmmm')).finally(console.log(2));
 })
 //登录验证
-router.post("/login",async(req,res) => {
+router.post("/login",(req,res) => {
     const email = req.body.email;
     const password = req.body.password;
     // 查询数据库
     // User.findOne({email}).then(user => {
     mongoHelper.findOne("test",{email}).then(user => {
+        console.log(user)
         if(!user){
             return res.status(404).json('用户不存在')
         }
+        
         //密码匹配
         bcrypt.compare(password, user.password).then(isMatch =>{
             console.log(isMatch);
@@ -85,6 +87,7 @@ router.post("/login",async(req,res) => {
             }
         })
     })
+    .catch(err => res.status(404).json(err));
 })
 
 //$route GET api/users/current

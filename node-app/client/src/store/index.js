@@ -8,11 +8,13 @@ const type = {
 }
 const state ={ 
   isAuthentication: false, //授权
-  user: {}
+  user: {},
+  websit: 'http://localhost:5000'
 }
 const getters ={
   isAuthentication:state => state.isAuthentication,
-  user: state => state.user
+  user: state => state.user,
+  
 }
 const mutations ={
   [type.SET_AUTHENTICATION](state,isAuthentication) {

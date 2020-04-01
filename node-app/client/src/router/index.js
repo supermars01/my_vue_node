@@ -8,7 +8,10 @@ import Home from '../views/Home.vue'
 import InfoShow from '../views/InfoShow.vue'
 import FundList from '../views/FundList.vue'
 import UserList from '../views/UserList.vue'
-
+import Business from '../views/Business.vue'
+import BusinessInfo from '../views/BusinessInfo'
+import BusinessClassfix from '../views/category/BusinessClassfix'
+import Upload from '../components/Upload'
 Vue.use(VueRouter)
 
 const routes = [
@@ -20,12 +23,16 @@ const routes = [
     path: '/index',
     name: 'index',
     component: Index,
+    redirect: '',
     children: [
       {path: '',component: Home},
       {path: '/home',name: 'home',component: Home},
       {path: '/infoshow',name: 'infoshow',component:  InfoShow},
       {path: '/fundlist',name: 'fundlist',component:  FundList},
       {path: '/userlist',name: 'userlist',component:  UserList},
+      {path: '/business', name: 'business',component:  Business},
+      {path: '/info/:state', name: 'BusinessInfo',component:  BusinessInfo},
+      {path: '/classfix', name: 'BusinessClassfix',component:  BusinessClassfix}
     ]
   },
   {
@@ -43,10 +50,15 @@ const routes = [
     name: '/404',
     component: NotFound
   },
+  {
+    path: '/upload',
+    name: 'upload',
+    component: Upload
+  },
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

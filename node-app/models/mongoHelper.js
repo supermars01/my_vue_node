@@ -1,18 +1,18 @@
 var mongodb = require("mongodb");
-var MongoClient = mongodb.MongoClient;
+var MongoClientkk = mongodb.MongoClient;
 var connStr = "mongodb://localhost:27017";
-
 let db;
 
 function _connect(){
     return new Promise((resolve,reject)=>{
         if(!db){
-            mongodb.connect(connStr,{ useNewUrlParser: true , useUnifiedTopology: true},(err,client) =>{
+            mongodb.connect(connStr,{ useNewUrlParser: true },(err,client) =>{
                 if(!err){
                     db = client.db("restful-api-prod");
                     resolve(db);
                 }
                 else reject(err);
+                
             })
         }
         else resolve(db);
@@ -99,7 +99,6 @@ function findOne(collection,json){
         })
     })
 }
-
 /**
  * 根据ID来查找记录
  * @param {String} collection 集合名
@@ -109,6 +108,44 @@ function findOneById(collection,id){
     return new Promise((resolve,reject) => {
         _connect().then(dbClient => {
             dbClient.collection(collection).findOne({_id:mongodb.ObjectId(id)},(err,data) => {
+                if(!err){
+                    resolve(data);
+                    return;
+                }
+                reject(err);
+            })
+        })
+    })
+}
+/**
+ * 分页查找对象
+ * @param {String} collection 集合名
+ * @param {String} json 查询Json
+ * @param {String} page 页数
+ * @param {String} page_num 查询分页中几条数据
+ */
+function find_limit(collection,json,page,page_num){
+    return new Promise((resolve,reject) => {
+        _connect().then(dbClient => {
+            dbClient.collection(collection).find(json).skip((page-1)*page_num).limit(page_num).toArray((err,data) => {
+                if(!err){
+                    resolve(data);
+                    return;
+                }
+                reject(err);
+            })
+        })
+    })
+}
+/**
+ * 查找几条数据
+ * @param {String} collection 集合名
+ * @param {String} json 查询Json
+ */
+function find_count(collection,json){
+    return new Promise((resolve,reject) => {
+        _connect().then(dbClient => {
+            dbClient.collection(collection).find(json).count((err,data) => {
                 if(!err){
                     resolve(data);
                     return;
@@ -253,5 +290,7 @@ module.exports = {
     updateOneById,
     deleteOne,
     deleteOneById,
-    deleteMany
+    deleteMany,
+    find_limit,
+    find_count
 }

@@ -4,10 +4,14 @@ const MongoClient = require("mongodb").MongoClient;
 const bodyParser = require("body-parser");
 const passport = require("passport"); //对请求进行身份验证
 const app = express(); 
-
+const path = require('path')
 //引入users.js
-const users = require("./routes/api/users");
-const profile = require("./routes/api/profile");
+const users = require("./routes/api/users"); //用户信息
+const profile = require("./routes/api/profile"); //资金流水
+const business = require("./routes/api/business"); //商家
+const business_category = require("./routes/api/business_category"); //商家分类
+const upload = require("./routes/api/upload"); //商家
+
 //DB config
 const conf = require("./config/keys");
 
@@ -42,10 +46,19 @@ require("./config/passport")(passport); //传对象过去（代码抽离模式�
 app.get("/",(req,res) => {
     res.send("Hellow World!")
 })
+
+
+
 //使用routes 
 app.use("/api/users",users);
 app.use("/api/profile",profile);
+app.use("/api/business",business);
+app.use("/api/upload",upload);
+//图片处理
+app.use(express.static(__dirname));
+// app.use(express.static(path.join(__dirname, 'public')))
 
+app.use("/api/business_category",business_category);
 const port = process.env.PORT || 5000;
 app.listen(port,()=>{
     console.log(`Server running on port ${port}`);
