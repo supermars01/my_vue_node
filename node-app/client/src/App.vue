@@ -11,9 +11,11 @@ export default {
   created() {
     if (localStorage.eleToken) { //看下tonken是存在吗
       const decode = jwt_decode(localStorage.eleToken);
+      const UserId = localStorage.eleUserId
       //token 存到vuex中
       this.$store.dispatch("setAuthentication", !this.isEmpty(decode));
       this.$store.dispatch("setUser", decode);
+      this.$store.dispatch("setUserId", UserId);
     }
   },
   methods: {

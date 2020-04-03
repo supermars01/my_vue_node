@@ -155,7 +155,8 @@ export default {
         email: row.email,
         password: row.password,
         identity: row.identity,
-        id: row._id
+        id: row._id,
+        avatar: row.avatar
       };
     },
     onDeleteMoney(row, index) {

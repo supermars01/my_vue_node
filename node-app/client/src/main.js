@@ -10,6 +10,7 @@ import store from './store'
 // import Export2Excel from './excel/Export2Excel.js'
 
 Vue.config.productionTip = false
+
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios;
 new Vue({

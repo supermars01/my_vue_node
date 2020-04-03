@@ -9,12 +9,13 @@ const type = {
 const state ={ 
   isAuthentication: false, //授权
   user: {},
+  UserId: '',
   websit: 'http://localhost:5000'
 }
 const getters ={
   isAuthentication:state => state.isAuthentication,
   user: state => state.user,
-  
+  UserId: state => state.UserId
 }
 const mutations ={
   [type.SET_AUTHENTICATION](state,isAuthentication) {
@@ -26,6 +27,9 @@ const mutations ={
     if(user) state.user = user;
     else state.user = {};
   },
+  setUserId(state,UserId) {
+    state.UserId = UserId
+  }
 
 }
 
@@ -40,7 +44,10 @@ const actions = { //异步操作
   clearCurrentState:({commit}) => {
     commit(type.SET_AUTHENTICATION,false);
     commit(type.SET_USER,null)
-  }
+  },
+  setUserId:({commit},UserId) => {
+    commit('setUserId',UserId);
+  },
 }
 export default new Vuex.Store({
   state,

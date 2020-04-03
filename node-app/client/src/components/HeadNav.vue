@@ -6,7 +6,8 @@
                 <!-- <span class="title">管理后台系统</span> -->
             </el-col>
             <el-col :span="3" class="logo-container">
-               <router-link to="/classfix" tag="span" style="cursor: pointer;">类别管理</router-link>
+               <router-link to="/classfix" tag="span" style="cursor: pointer;margin-right: 40px">类别管理</router-link>
+               <router-link to="/classfix" tag="span" style="cursor: pointer;">留言管理</router-link>
             </el-col>
             <el-col :span="6" class="user">
                 <div class="user-info">
@@ -59,6 +60,7 @@ export default {
         logout() {
             console.log('退出');
             localStorage.removeItem('eleToken');
+            localStorage.removeItem('eleUserId');
             //设置vuex store
             this.$store.dispatch('clearCurrentState');
             //跳转

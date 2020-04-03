@@ -24550,6 +24550,7 @@ UE.plugin.register('simpleupload', function() {
             loader = me.document.getElementById(loadingId);
             loader.setAttribute('src', link);
             loader.setAttribute('_src', link);
+            loader.setAttribute('style','width:100%');
             loader.setAttribute('title', res.title || '');
             loader.setAttribute('alt', res.original || '');
             loader.removeAttribute('id');

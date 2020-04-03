@@ -30,9 +30,15 @@
                     </el-submenu>
                 </template>
                 <router-link to="/business">
-                    <el-menu-item index="0">
+                    <el-menu-item index="4">
                         <i class="fa fa-margin fa-server"></i>
                         <span slot="title">商家入驻</span>
+                    </el-menu-item>
+                </router-link>
+                <router-link to="/news">
+                    <el-menu-item index="5">
+                        <i class="fa fa-margin fa-server"></i>
+                        <span slot="title">技术分享</span>
                     </el-menu-item>
                 </router-link>
              </el-menu>

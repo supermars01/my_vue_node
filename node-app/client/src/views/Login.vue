@@ -58,16 +58,17 @@ export default {
           // this.$axios.post("/api/users/login", this.loginUser).then(res => {
             // console.log(JSON.stringify(res))
             // 登录成功
-            const { token } = res.data;
+            console.log(res.data)
+            const { token,UserId } = res.data;
             localStorage.setItem("eleToken", token);
-
+            localStorage.setItem("eleUserId", UserId);
             // 解析token
             const decode = jwt_decode(token);
-            console.log(decode)
+            console.log(UserId)
             // 存储数据
             this.$store.dispatch("setAuthentication", !this.isEmpty(decode));
             this.$store.dispatch("setUser", decode);
-
+            this.$store.dispatch("setUserId", UserId);
             // 页面跳转
             this.$router.push("/index");
           });

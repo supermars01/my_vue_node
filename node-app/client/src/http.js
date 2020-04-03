@@ -39,6 +39,7 @@ axios.interceptors.response.use(response => {
         Message.error('token失效，请重新登录!')
         //清除token
         localStorage.removeItem('eleToken');
+        localStorage.removeItem('eleUserId');
         //跳转到登录页面
         router.push('/login');
     }

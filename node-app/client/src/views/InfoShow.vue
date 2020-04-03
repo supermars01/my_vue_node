@@ -5,6 +5,7 @@
            <el-col :span='8'>
                <div class="user">
                     <img :src="user.avatar" class='avatar' alt="">
+                    <input type="file" name="头像更改" id="user_btn" @change="user_change">
                </div>
            </el-col>
            <el-col :span='16'>
@@ -23,16 +24,52 @@
     </div>
 </template>
 <script>
+import {upload} from '../api/upload'
+import {edit} from '../api/users'
 export default {
   name: "infoshow",
   computed: {
     user() {
       return this.$store.getters.user;
     }
-  }
+  },
+  methods: {
+    user_change(e) {
+      console.log( this.$store.getters.user)
+      let files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      let imgdata = new FormData();
+      imgdata.append('file',files[0]);
+      console.log(imgdata)
+      upload(imgdata).then(res => {
+        console.log(JSON.stringify(res))
+        this.$store.getters.user.avatar = res.data.url;
+
+        this.edit_set()
+      })
+    },
+    edit_set() {
+      var obj = {
+        id: this.$store.getters.UserId,
+        avatar: this.$store.getters.user.avatar
+      }
+      console.log(obj)
+      edit(obj).then(res => {
+        this.$message({
+          message: "保存成功！",
+          type: "success"
+        });
+      })
+    }
+  },
 };
 </script>
 <style scoped>
+#user_btn {
+  width: 74px;
+  display:block;
+  margin: 20px auto;
+}
 .infoshow {
   width: 100%;
   height: 100%;
@@ -47,9 +84,13 @@ export default {
   text-align: center;
   position: relative;
   top: 30%;
+  
 }
 .user img {
   width: 150px;
+  height: 150px;
+  display: block;
+  margin: 0 auto;
   border-radius: 50%;
 }
 .user span {

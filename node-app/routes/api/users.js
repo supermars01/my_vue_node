@@ -78,7 +78,8 @@ router.post("/login",(req,res) => {
                     if(err) throw err;
                     res.json({
                         success: true,
-                        token: "Bearer "+token
+                        token: "Bearer "+token,
+                        UserId: user._id,
                     })
                 })
                 // res.json({msg:"success"});
@@ -120,16 +121,26 @@ router.post("/edit",passport.authenticate("jwt",{session:false}),
     // const _id = req.params.id
     console.log(req.body.id)
     const UserFields = {};
+    if (req.body.avatar) UserFields.avatar = req.body.avatar;
     if (req.body.name) UserFields.name = req.body.name;
     if (req.body.email) UserFields.email = req.body.email;
     if (req.body.password) UserFields.password = req.body.password;
     if (req.body.identity) UserFields.identity = req.body.identity;
     console.log(JSON.stringify(UserFields))
     mongoHelper.findOneById("test",_id).then(user_id=> {
+        console.log('====') 
         console.log(JSON.stringify(user_id))
         if(!user_id){
             return res.status(404).json('当前用户信息异常')
         }
+        if(user_id.avatar != req.body.avatar) {
+            mongoHelper.updateOneById("test",req.body.id,UserFields)
+            .then(user_edit => {
+                res.json(user_edit);
+            })
+            .catch(err => res.status(404).json(err));
+            return ;
+        } 
         //密码匹配 输入的密码
         if(user_id.password == req.body.password) {
             console.log(1)
@@ -139,6 +150,7 @@ router.post("/edit",passport.authenticate("jwt",{session:false}),
             })
             .catch(err => res.status(404).json(err));
         } else {
+            console.log(2)
             bcrypt.genSalt(10, function(err, salt) {
                 bcrypt.hash(UserFields.password, salt, async(err, hash) => {
                     if(err) throw err;

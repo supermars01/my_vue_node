@@ -10,7 +10,9 @@ const users = require("./routes/api/users"); //用户信息
 const profile = require("./routes/api/profile"); //资金流水
 const business = require("./routes/api/business"); //商家
 const business_category = require("./routes/api/business_category"); //商家分类
-const upload = require("./routes/api/upload"); //商家
+const upload = require("./routes/api/upload"); //上传
+const news = require("./routes/api/news"); //技术列表
+const news_category = require("./routes/api/news_category"); //技术列表类别
 
 //DB config
 const conf = require("./config/keys");
@@ -54,6 +56,9 @@ app.use("/api/users",users);
 app.use("/api/profile",profile);
 app.use("/api/business",business);
 app.use("/api/upload",upload);
+
+app.use("/api/news",news);
+app.use("/api/news_category",news_category);
 //图片处理
 app.use(express.static(__dirname));
 // app.use(express.static(path.join(__dirname, 'public')))

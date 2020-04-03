@@ -8,10 +8,13 @@ import Home from '../views/Home.vue'
 import InfoShow from '../views/InfoShow.vue'
 import FundList from '../views/FundList.vue'
 import UserList from '../views/UserList.vue'
-import Business from '../views/Business.vue'
-import BusinessInfo from '../views/BusinessInfo'
-import BusinessClassfix from '../views/category/BusinessClassfix'
-import Upload from '../components/Upload'
+import Business from '../views/Business.vue' //列表
+import BusinessInfo from '../views/BusinessInfo' //详情页
+import BusinessClassfix from '../views/category/BusinessClassfix' //商品类别
+import Upload from '../components/Upload' //测试使用
+import NewsInfo from '../views/news/News_Info'
+import News from '../views/news/News'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -32,7 +35,10 @@ const routes = [
       {path: '/userlist',name: 'userlist',component:  UserList},
       {path: '/business', name: 'business',component:  Business},
       {path: '/info/:state', name: 'BusinessInfo',component:  BusinessInfo},
-      {path: '/classfix', name: 'BusinessClassfix',component:  BusinessClassfix}
+      {path: '/classfix', name: 'BusinessClassfix',component:  BusinessClassfix},
+      {path: '/business', name: 'business',component:  Business},
+      {path: '/news_info/:state',name: 'newsinfo',component:  NewsInfo},
+      {path: '/news',name:'news',component:  News},
     ]
   },
   {
