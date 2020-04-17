@@ -1,0 +1,46 @@
+<!--index.wxml-->
+<view class="container">
+	<view class='cu-custom' >
+	   <view class="userinfo">
+	     <button wx:if="{{!hasUserInfo && canIUse}}" class="cu-btn round bg-yellow shadow"  open-type="getUserInfo" bindgetuserinfo="getUserInfo">登录</button>
+		 <block wx:else>
+	       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+	       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+	     </block>
+	   </view>
+	</view>
+	<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
+	  <view class="cu-item arrow">
+	    <view class="content" bindtap="CopyLink" data-link="https://github.com/weilanwl/ColorUI">
+	      <text class="cuIcon-github text-grey"></text>
+	      <text class="text-grey">GitHub</text>
+	    </view>
+	  </view>
+	  
+	  <view class="cu-item arrow">
+	    <navigator class="content" url="/pages/about/log/log" hover-class="none">
+	      <text class="cuIcon-likefill text-red"></text>
+	      <text class="text-grey">我的喜欢</text>
+	    </navigator>
+	  </view>
+	  <view class="cu-item arrow">
+	    <view class="content" bindtap="showQrcode">
+	      <text class="cuIcon-appreciatefill text-orange"></text>
+	      <text class="text-grey">赞赏支持</text>
+	    </view>
+	  </view>
+	  <view class="cu-item arrow">
+	    <button class="cu-btn content" open-type="feedback">
+	      <text class="cuIcon-writefill text-blue"></text>
+	      <text class="text-grey">评论查看</text>
+	    </button>
+	  </view>
+	  <view class="cu-item arrow">
+	    <navigator class="content" url="/pages/about/test/list" hover-class="none">
+	      <text class="cuIcon-creativefill text-orange"></text>
+	      <text class="text-grey">Bug测试</text>
+	    </navigator>
+	  </view>
+	</view>
+	<view class="cu-tabbar-height"></view>
+</view>

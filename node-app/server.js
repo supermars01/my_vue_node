@@ -6,6 +6,7 @@ const passport = require("passport"); //对请求进行身份验证
 const app = express(); 
 const path = require('path')
 //引入users.js
+const wxusers = require("./routes/api/wxusers"); //微信登录
 const users = require("./routes/api/users"); //用户信息
 const profile = require("./routes/api/profile"); //资金流水
 const business = require("./routes/api/business"); //商家
@@ -50,20 +51,24 @@ app.get("/",(req,res) => {
 })
 
 
+//解决文件过大
+app.use(bodyParser.json({limit: '10000mb'})); 
+app.use(bodyParser.urlencoded({limit: '10000mb', extended: true }));
 
 //使用routes 
+
 app.use("/api/users",users);
 app.use("/api/profile",profile);
 app.use("/api/business",business);
 app.use("/api/upload",upload);
-
 app.use("/api/news",news);
 app.use("/api/news_category",news_category);
+app.use("/api/wxusers",wxusers);
 //图片处理
 app.use(express.static(__dirname));
 // app.use(express.static(path.join(__dirname, 'public')))
-
 app.use("/api/business_category",business_category);
+
 const port = process.env.PORT || 5000;
 app.listen(port,()=>{
     console.log(`Server running on port ${port}`);

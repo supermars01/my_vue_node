@@ -1,0 +1,26 @@
+/**index.wxss**/
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
+.cu-custom {
+	padding: 160rpx 0 80rpx;
+	background-image: url(https://image.weilanwl.com/color2.0/plugin/cjkz2329.jpg);
+	background-size: 100% 100%;
+}

@@ -1,0 +1,147 @@
+<view class="cu-custom">
+	<image src="../../static/images/bg.jpg" class="custom_img"></image>
+	<view class="cu-bar search fixed" style="top:180rpx;width: 100%;">
+	  <view class="search-form round">
+	    <text class="cuIcon-search"></text>
+	    <input type="text" placeholder="搜索icon" confirm-type="search" bindinput="searchIcon"></input>
+	  </view>
+	</view>
+</view>
+<template name="marTemplate">
+  <view class="content">
+    <navigator url="../news_info/news_info" hover-class="navigator-hover">
+      <view class="content_img">
+        <image src="{{item.logo||'http://img.youlemi.net/images/2/2019/01/MA1Kzc16KokkJAj3ukUAOv6Jvv3Vc3.jpeg'}}" />
+      </view>
+      <view class="content_text">
+        <view class="content_text_title">
+          <text>{{item.merchname}}</text>
+        </view>
+        <view class="content_text_cente">
+          <text class="text">评分：</text>
+          <view wx:for="{{item.eva_point}}" wx:key="{{eva_point}}">
+            <view class="content_text_grade">
+              <image src="../../static/images/grade.png" />
+            </view>
+          </view>
+        </view>
+        <view>
+          <view class="address">
+            地址：{{item.address}}
+          </view>
+        </view>
+        <view>
+          <text class="text">距离：</text>
+          <text>{{item.distance/1000}}公里</text>
+        </view>
+        <view class='progress'>
+          <view class='progress_left'>
+            <progress percent="{{item.sy_percent}}" color="red" stroke-width="13" active activeColor="#999" backgroundColor="#fff" />
+          </view>
+          <view class='progress_right'>{{item.pay_limit}}W</view>
+          <view class='pro_per'>{{item.sy_percent}}%</view>
+          <view class='pro_dis' wx:if="{{item.isaccept==1}}">可用代金券</view>
+        </view>
+      </view> 
+
+    </navigator>
+    <view class="content_icon">
+      <button bindtap="modalcnt" data-id="{{item.tel}}">
+        <image src="../../static/images/phone.png" />
+      </button>
+    </view>
+  </view>  
+</template>
+
+<!-- 下拉筛选框 -->
+<view class="page" style="padding-top: 260rpx;">
+  <view class="nav">
+    <view class="nav-son {{shownavindex == 1? 'active' : ''}}" bindtap="listqy" data-nav="1">
+      <view class="content_nav">分类</view>
+      <view class="icon-nav"></view>
+    </view>
+    <view class="nav-son borders {{shownavindex == 2? 'active' : ''}}" bindtap="list" data-nav="2">
+      <view class="content_nav">附近商家</view>
+      <view class="icon-nav"></view>
+    </view>
+    <view class="nav-son {{shownavindex == 3? 'active' : ''}}" bindtap="listpx" data-nav="3">
+      <view class="content_nav">智能排序</view>
+      <view class="icon-nav"></view>
+    </view>
+  </view>
+  <!-- 标签 -->
+  <view class="quyu {{qyopen ? 'slidown' : 'hidebg'}} {{qyshow ? 'disappear':''}}">
+
+    <view class="qy quyu-left">
+      <view class="{{select1 == index ? 'current' : ''}}" wx:for="{{cateList}}" wx:key="{{item}}" bindtap="selectleft" data-id="{{item.id}}">
+        {{item.catename}}
+      </view>
+    </view>
+    <view class="qy quyu-center" bindtap='selectPX'>
+      <view class="{{select2 == index ? 'current2' : ''}}" wx:for="{{cateSecondList}}" wx:key="{{item}}" url="../cateList/cateList?id={{item.id}}" bindtap="selectcenter" data-id="{{item.id}}">
+        {{item.catename}}
+      </view>
+    </view>
+
+  </view>
+
+  <view class="quyu quyu2 {{nzopen ? 'slidown' : 'hidebg'}} {{nzshow ? 'disappear':''}}">
+    <!-- <view class="qy quyu-right"> -->
+    <view bindtap='selectPX' class="qy quyu-right {{pxIndex == index?'current4':''}}">
+      <view bindtap="searchMerchList" data-by='all' data-order="distance">
+        不限
+      </view>
+      <view bindtap="searchMerchList" data-by='1' data-order="distance">
+        500米
+      </view>
+      <view bindtap="searchMerchList" data-by='2' data-order="distance">
+        1000米
+      </view>
+      <view bindtap="searchMerchList" data-by='3' data-order="distance">
+        3000米
+      </view>
+      <view bindtap="searchMerchList" data-by='4' data-order="distance">
+        5000米
+      </view>
+    </view>
+  </view>
+
+  <!-- 排序筛选 -->
+  <view class="temp temp2 contentCenter {{pxopen ? 'slidown' : 'hidebg'}} {{pxshow ? 'disappear':''}}">
+    <view bindtap='selectPX' class="pxTable {{pxIndex == index?'current4':''}}">
+      <view bindtap="bindSort" data-by='common' data-order="sort">智能排序</view>
+      <view bindtap="bindSort" data-by='eva' data-order="sort">
+        好评优先
+      </view>
+      <view bindtap="bindSort" data-by='new' data-order="sort">
+        最新加入
+      </view>
+      <view bindtap="bindSort" data-by='hot' data-order="sort">
+        人气最高
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="box">
+      <block wx:for="{{list}}" wx:for-item="item" wx:key="key">
+        <template is="marTemplate" data="{{item:item}}"></template>
+      </block>
+      <!-- <view class="fui-loading" wx:if="{{loading}}">
+        <view class="icon"></view>
+        <view class="text">正在加载</view>
+      </view>
+      <view class="fui-loading empty" wx:if="{{list.length==total&&total>0}}">
+        <view class="text">没有更多了</view>
+      </view>
+      <view class="fui-loading empty" wx:if="{{total<=0&&!loading}}">
+        <view class="text">暂时没有任何记录</view>
+      </view>
+      <view class="dibu">
+        <include src="../template/template" />
+      </view> -->
+    </view>
+  </view>
+
+
+</view>

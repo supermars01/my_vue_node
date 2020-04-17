@@ -1,0 +1,185 @@
+	
+.container_s {
+	padding: 10rpx 30rpx 100rpx;
+	background-color: #fff;
+	height: 100%;
+	position: relative;
+}
+.title_img {
+	margin: 20rpx 0;
+}
+.title_img .text-grey {
+	display: block;
+	padding-top: 14rpx;
+}
+.title_img .text-gray {
+	display: block;
+	padding-top: 10rpx;
+}
+/* 底部 */
+.operation {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	left: 0;
+	border-top: 1rpx solid #d0d0d0;
+	padding: 30rpx 30rpx;
+	background-color: #fff;
+}
+.operation .click_text {
+	width: 100%;
+	line-height: 30rpx;
+	background-color: #dadada;
+	color: #adadad;
+}
+.operation .fl {
+	width: 50%;
+	background-color: #dadada;
+}
+.operation .icon {
+	padding: 10rpx ;
+}
+.operation .fr {
+	padding-top: 8rpx;
+}
+.more_news {
+	position: fixed;
+	right: 20rpx;
+	bottom: 150rpx;
+	
+}
+/* 单文本省略 */
+.list_sl {
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+	width: 74%;
+	display: inline-block;
+	
+
+}
+.cu-list.menu>.cu-item .content {
+	font-size: 26rpx;
+	line-height: 1em;
+}
+.more_news  .img {
+	width: 100rpx;
+	height: 100rpx;
+	background-color: #67d7ff;
+	border-radius: 50%;
+	font-size: 60rpx;
+	padding: 10rpx;
+}
+/* 底部  end*/
+.user_img {
+	width: 90rpx;
+	height: 90rpx;
+	border-radius: 50%;
+}
+page {
+  /* background-image: var(--gradualBlue); */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.DrawerPage {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0vw;
+  background-color: #f1f1f1;
+  transition: all 0.4s;
+  padding-bottom: 18%;
+  background-color: #fff;
+}
+
+.DrawerPage.show {
+  transform: scale(0.9, 0.9);
+  left: 85vw;
+  box-shadow: 0 0 60rpx rgba(0, 0, 0, 0.2);
+  transform-origin: 0;
+}
+
+.DrawerWindow {
+  position: absolute;
+  width: 85vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  transform: scale(0.9, 0.9) translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s;
+}
+
+.DrawerWindow.show {
+  transform: scale(1, 1) translateX(0%);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.DrawerClose {
+  position: absolute;
+  width: 40vw;
+  height: 100vh;
+  right: 0;
+  top: 0;
+  color: transparent;
+  padding-bottom: 30rpx;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.6));
+  letter-spacing: 5px;
+  font-size: 50rpx;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s;
+}
+
+.DrawerClose.show {
+  opacity: 1;
+  pointer-events: all;
+  width: 15vw;
+  color: #fff;
+}
+
+.DrawerPage .cu-bar.tabbar .action button.icon {
+  width: 64rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  margin: 0;
+  display: inline-block;
+}
+
+.DrawerPage .cu-bar.tabbar .action .cu-avatar {
+  margin: 0;
+}
+
+.DrawerPage .nav {
+  flex: 1;
+}
+
+.DrawerPage .nav .cu-item.cur {
+  border-bottom: 0;
+  position: relative;
+}
+
+.DrawerPage .nav .cu-item.cur::after {
+  content: "";
+  width: 10rpx;
+  height: 10rpx;
+  background-color: currentColor;
+  position: absolute;
+  bottom: 10rpx;
+  border-radius: 10rpx;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.DrawerPage .cu-bar.tabbar .action {
+  flex: initial;
+}

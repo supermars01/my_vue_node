@@ -30,10 +30,16 @@ export const news_search = params => {
 
 // 类别处理
 //添加
+/*
+name: name
+*/
 export const category_add = params => {
     return axios.post(`${baseUrl}/api/news_category/add`, params) 
 }
 //删除
+/*
+id: id
+*/
 export const category_delete = params => {
     return axios.delete(`${baseUrl}/api/news_category/delete`, params) 
 }
@@ -42,6 +48,10 @@ export const category_list = params => {
     return axios.get(`${baseUrl}/api/news_category/list`, params) 
 }
 //编辑
+/*
+name: name
+id: id
+*/
 export const category_edit = params => {
     return axios.post(`${baseUrl}/api/news_category/edit`, params) 
 }

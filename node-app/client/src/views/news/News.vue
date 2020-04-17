@@ -89,8 +89,8 @@
                     width="180"
                    >
                     <template slot-scope="scope">
-                      <span v-if="scope.row.data==0">否</span>
-                      <span v-if="scope.row.data==1">是</span>
+                      <span v-if="scope.row.Top==0">否</span>
+                      <span v-if="scope.row.Top==1">是</span>
                     </template>
                 </el-table-column>
                 <el-table-column

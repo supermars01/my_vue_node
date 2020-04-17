@@ -1,0 +1,52 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/personal/personal",
+    "pages/business/business",
+    "pages/news/news",
+    "pages/news_info/news_info",
+    "pages/business_info/business_info",
+    "pages/logs/logs",
+    "pages/switchcity/switchcity"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#38485f",
+    "navigationBarTitleText": "博客",
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "white"
+  },
+  "usingComponents": {},
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "color": "#333",
+    "selectedColor": "#F6B340",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/images/home_icon/home1.png",
+        "selectedIconPath": "static/images/home_icon/home2.png"
+      },
+      {
+        "pagePath": "pages/business/business",
+        "text": "商家",
+        "iconPath": "static/images/home_icon/merchant1.png",
+        "selectedIconPath": "static/images/home_icon/merchant2.png"
+      },
+      {
+        "pagePath": "pages/news/news",
+        "text": "文章",
+        "iconPath": "static/images/home_icon/shop1.png",
+        "selectedIconPath": "static/images/home_icon/shop2.png"
+      },
+      {
+        "pagePath": "pages/personal/personal",
+        "text": "我的",
+        "iconPath": "static/images/home_icon/my1.png",
+        "selectedIconPath": "static/images/home_icon/my2.png"
+      }
+    ]
+  }
+}

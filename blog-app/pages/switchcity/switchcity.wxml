@@ -1,0 +1,31 @@
+<!--pages/switchcity/switchcity.wxml-->
+<view class='box'>
+  <view class='look'>
+    <view class='look_content'>
+      您正在看：{{address}}
+    </view>
+
+  </view>
+  <view class='content'>
+    <view class='location'>
+      定位/最近访问
+      <view class='city'>
+        <view class='img'>
+          <image src="../../static/images/address.png" />
+        </view>
+        {{address}}
+      </view>
+    </view>
+    <view class='open'>
+      已开通城市
+      <view class='openCity'>
+        <view class='city city1' wx:for="{{city}}" wx:key='city' data-city="{{item}}" bindtap="reGetaddress">
+          {{item}}
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+    <view class="dibu">
+      <include src="../template/template" />
+    </view>

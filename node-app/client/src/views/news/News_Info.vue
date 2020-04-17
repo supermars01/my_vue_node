@@ -49,7 +49,7 @@
                 </el-form-item>
                 <el-form-item prop="Top" label="置顶">
                   <el-switch
-                    v-model="value"
+                    v-model="formLabelAlign.Top"
                     active-color="#13ce66"
                     inactive-color="#ff4949"
                     active-value="1"
@@ -88,7 +88,6 @@ export default {
         return {
             content_msg: '',
             labelPosition: 'right',
-            value: '0', //是否置顶
             formLabelAlign: { },
             gridData: [], //
             news_category_list: [], //类别
@@ -135,8 +134,6 @@ export default {
       })
     },
     onSubmit(formLabelAlign) {
-      console.log(this.formLabelAlign)
-      this.formLabelAlign.Top = this.value;
       this.formLabelAlign.img = this.news_img;
       console.log(formLabelAlign);
       this.$refs[formLabelAlign].validate(valid => {
@@ -201,10 +198,12 @@ export default {
               type: 'success',
               message: '添加成功'
           });
+          this.add_category_title ='';
       })
     },
     //类型编辑
-    category_Edit(index, row) {
+    category_Edit(index, row) { 
+      
         console.log(index, row);
         this.open(row._id,row.name); // 打开修改弹窗
     },
@@ -250,6 +249,7 @@ export default {
       console.log()
         this.operation = this.$route.params.form.operation;
         this.formLabelAlign = this.$route.params.form;
+        this.news_img = this.$route.params.form.img;
         console.log(this.$route.params.form.imgList)
         this.List2 = this.$route.params.form.imgList;
         this.goods_logo = this.$route.params.form.goodsLogo;

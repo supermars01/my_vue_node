@@ -21,13 +21,13 @@ router.post("/add",passport.authenticate("jwt",{session:false}),async(req,res) =
     news_list.give = '0' //点赞个数
     news_list.reads = '0' //阅读量
     news_list.Top = '0' //是否置顶
+    if (req.body.Top) news_list.Top = req.body.Top; //作者
     if (req.body.name) news_list.name = req.body.name; //作者
     if (req.body.category) news_list.category = req.body.category; //类别
     if (req.body.title) news_list.title = req.body.title; //标题
     if (req.body.sub_title) news_list.sub_title = req.body.sub_title; //副标题
     if (req.body.img) news_list.img = req.body.img; //图片
     if (req.body.content) news_list.content = req.body.content; //内容
-    console.log(news_list);
     try {
         await mongoHelper.insertOne('news',news_list);
         return res.status(200).json(news_list);

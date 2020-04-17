@@ -14,6 +14,7 @@ opts.secretOrKey = keys.secretOrkey;
 module.exports = passport => {
     passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
         console.log(jwt_payload);
+        console.log('解析token，然后再去找id');
         mongoHelper.findOne("test",{"id":jwt_payload.id})
         .then(user => {
             if(user) {
