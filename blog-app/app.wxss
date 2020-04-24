@@ -1,7 +1,12 @@
 /**app.wxss**/
 @import "/static/wxss/main.wxss";
 @import "/static/wxss/icon.wxss";
-
+.navigator-hover {
+  background-color: none
+}
+.navigator:hover{
+  background-color: none
+}
 .container {
   /* background: RGB(242,242,242); */
 } 

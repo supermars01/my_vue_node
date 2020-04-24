@@ -78,16 +78,30 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 3,
 					"name": "pages/news_info/news_info",
 					"pathName": "pages/news_info/news_info",
-					"query": "",
+					"query": "id=5e9eab7ff0241120ac0ad1ad",
 					"scene": null
 				},
 				{
 					"id": -1,
 					"name": "pages/business_info/business_info",
 					"pathName": "pages/business_info/business_info",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/news/news",
+					"pathName": "pages/news/news",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/search/search",
+					"pathName": "pages/search/search",
 					"scene": null
 				}
 			]

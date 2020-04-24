@@ -1,0 +1,18 @@
+<view class='navbar ' style='height:{{navH}}rpx'>
+   <view class='navbarH' style='height:{{navH}}rpx;'>
+      <view class='navbarCon' wx:if='{{parameter.navbar==0}}'>
+         <view class='search acea-row row-middle' bindtap='setGoodsSearch'><text class='iconfont icon-xiazai5'></text>文章搜索</view>
+      </view>
+      <view class='navbarCon acea-row row-center-wrapper' wx:if='{{parameter.navbar==1}}'>
+		   <view class='name {{parameter.color==true?"on":""}} line1'>{{parameter.title}}</view>
+		   <text class="cuIcon-back icon_tabck lg text-white" bindtap='return'></text>
+		</view>
+	  <view class='navbarCon acea-row row-middle' wx:if='{{parameter.navbar==2}}'>
+		 <text class="cuIcon-back icon_tabck lg text-white" bindtap='return'></text>
+	     <view class='name {{parameter.color==true?"on":""}} line2'>
+			 {{parameter.title}}
+		 </view>
+	  </view>
+   </view>
+</view>
+<view style='height:{{navH}}rpx'></view>

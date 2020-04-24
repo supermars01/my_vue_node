@@ -1,4 +1,6 @@
 // pages/personal/personal.js
+import { newsList } from '../../api/news.js';
+import WxParse from '../../wxParse/wxParse.js';
 Page({
   /**
   * 页面的初始数据
@@ -42,6 +44,12 @@ Page({
       { thumb: 'http://img.youlemi.net/images/2/2019/11/ZSU1OuGbT1Y4Y1c5S595lcbysUL924.png', catename: '技术', url: '..'},
     ],
     gridCol: 5, //动态更改显示个数
+    parameter: {
+      'navbar': '0',
+      'return': '0'
+    },
+    newslist: [],
+    page: 0
   },
   cardSwiper(e) {
     this.setData({
@@ -58,8 +66,22 @@ Page({
     //     console.log(res)
     //   },
     // })
+    this._newsList()
   },
-
+  _newsList(){
+    const pagenum = this.data.page + 1
+    newsList({ page: pagenum}).then(res=> {
+      console.log(res)
+      const newsArr = this.data.newslist;
+      const list = res.result.news_list;
+      newsArr.push(...list)
+      console.log(res)
+       this.setData({
+         newslist: newsArr,
+         page: pagenum
+       })
+    })
+  },
   /**
   * 生命周期函数--监听页面初次渲染完成
   */
@@ -99,7 +121,8 @@ Page({
   * 页面上拉触底事件的处理函数
   */
   onReachBottom: function () {
-
+      //上拉加载更多
+    this._newsList()
   },
 
   /**
@@ -110,5 +133,5 @@ Page({
       title: '首页',
       path: '/'
     }
-  }
+  },
 })

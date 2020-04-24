@@ -1,77 +1,47 @@
+
+<import src="/wxParse/wxParse.wxml" />
 <scroll-view scroll-y class="DrawerPage {{modalName=='viewModal'?'show':''}}">
-		<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}"><view slot="backText"></view>
-			<view slot="content">详情</view>
-		</cu-custom>	
+		<navbar parameter='{{parameter}}'></navbar>
 	    <view class="container_s">
 			<!-- 标题 -->
 			<view class="solid-bottom text-xl ">
-			  <text class="text-black text-bold">作为一个程序员，如何每天快乐学习，加强自己！</text>
+			  <text class="text-black text-bold">{{infoList.title}}</text>
 			</view>
 			<!-- 人像 -->
 			<view class="flex solid-bottom align-start title_img">
 				<view class="margin-xs">
-					<image src="../../static/images/icon.png" class="user_img"></image>
+					<image src="{{infoList.img}}" class="user_img"></image>
 				</view>
 				<view class="margin-xs">
 					<view class=" text-sm">
-					  <text class="text-grey">我于杀戮之中绽放 亦如黎明中的花朵</text>
-					  <text class="text-gray">2018-09-52</text>
+					  <text class="text-grey">{{infoList.name}}</text>
+					  <text class="text-gray">{{infoList.data}}</text>
 					</view> 
 				</view>
 			</view>
 			<view class="clear"></view>
 			<!-- 主要内容 -->
 			<view class="content">
-				<text>
-					程序员是和代码打交道的人，俗称码农。
-					
-					现在大到互联网，小到红绿灯，都是需要一些代码进行控制的。不同领域的程序员编写不同领域的代码。有做网站的程序，就写一些网站的代码；做财务软件的程序员，就写些财务软件；还有编写像qq之类的客户端程序的；也有一些编写底层驱动代码的，像声卡啊，网卡啊，还有传感器等。
-					
-					写程序就像是说话一样，需要用到所谓的语言，比如C语言，C#语言，Java，Php，Html,Javscript，Sql等等。
-					
-					我是一个网站程序员，所以，就说说网站程序员的事吧。
-					
-					对于做网站来说，一般也有语言上的分工，比如前端语言、后端语言，前端语言就是呈现给用户的网页，像下拉框啊，输入框啊，按钮啊，图片啊列表等等，后端语言就是用来处理一些业务的，比如点击了百度的搜索框之后，需要根据关键词在数据库中查出相应的结果，然后再显示在网页上，其中就需要用后端语言来进行处理，在这里，很可能需要访问数据库，数据库常见的有Oracle,MySql,Sql Server，Access等等，而操作这些数据库需要用到一种叫做sql的语言，这种语言是通用的，不过对于不同的数据库，也会有差异。
-					
-					好了，那接下来就介绍一下，做一个网站，需要用到哪些基本的语言。
-					
-					一 前端：Html,JavaScript，Css。
-					 
-					1 Html（Hypertext Markup Language）超文本标记语言
-					（1）用来表示一个输入框，下拉列表，按钮，图片等等，如百度：
-					————————————————
-					版权声明：本文为CSDN博主「xiaxiazl」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
-					原文链接：https://blog.csdn.net/xiaxiazl/article/details/17454507
-					
-					写程序就像是说话一样，需要用到所谓的语言，比如C语言，C#语言，Java，Php，Html,Javscript，Sql等等。
-					
-					我是一个网站程序员，所以，就说说网站程序员的事吧。
-					
-					对于做网站来说，一般也有语言上的分工，比如前端语言、后端语言，前端语言就是呈现给用户的网页，像下拉框啊，输入框啊，按钮啊，图片啊列表等等，后端语言就是用来处理一些业务的，比如点击了百度的搜索框之后，需要根据关键词在数据库中查出相应的结果，然后再显示在网页上，其中就需要用后端语言来进行处理，在这里，很可能需要访问数据库，数据库常见的有Oracle,MySql,Sql Server，Access等等，而操作这些数据库需要用到一种叫做sql的语言，这种语言是通用的，不过对于不同的数据库，也会有差异。
-					
-					好了，那接下来就介绍一下，做一个网站，需要用到哪些基本的语言。
-					
-					一 前端：Html,JavaScript，Css。
-				</text>
+				<template is="wxParse" data="{{wxParseData:infoconten.nodes}}" />
 			</view>
 			<view class="clear"></view>
 			<view class="operation">
 				<view class=" cf">
-				  <view class="radius fl text-sm padding-sm">
+				  <view class="radius fl text-sm padding-sm" bind:tap="comment">
 					<text class="click_text">点击评论.....</text>
 				  </view>
 				  <view class="fr">
 					  <view class="flex justify-end">
-					    <view class="margin-xs radius">
+					    <view class="margin-xs radius" bind:tap="handGive">
 							<!-- text-red -->
-							<text class="cuIcon-appreciate lg text-black"></text>
-							<text class="text-red icon">85</text>
+							<text class="cuIcon-appreciate {{isfalse?'text-red':'text-black'}} lg"></text>
+							<text class="text-red icon">{{give_num}}</text>
 						</view>
-					    <view class="margin-xs radius">
-					    	<!-- text-red -->
-					    	<text class="cuIcon-attentionfill lg text-black"></text>
-					    	<text class="text-red  icon ">85</text>
-					    </view>
+            <view class="margin-xs radius">
+              <!-- text-red -->
+              <text class="cuIcon-attentionfill lg text-black"></text>
+              <text class="text-red  icon ">{{infoList.reads}}</text>
+            </view>
 						<view class="margin-xs radius">
 							<!-- text-red -->
 							<text class="cuIcon-share lg text-black"></text>
@@ -80,6 +50,8 @@
 				  </view>
 				</view>
 			</view>
+      <!-- 回到顶部 -->
+		  <back-top wx:if="{{showBackTop}}"/>
 			<view class="more_news">
 				<view class='block ' bindtap="showModal" data-target="viewModal">
 					<text class="cuIcon-similar text-white img"></text>
@@ -98,10 +70,10 @@
 	</view>
 	<scroll-view scroll-y class="DrawerWindow {{modalName=='viewModal'?'show':''}}">
 		<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
-			 <navigator url="../news_info/news_info" class="cu-item arrow" wx:for="{{20}}" wx:key="index">
+			 <navigator url="{{'../news_info/news_info?id='+item._id}}" class="cu-item arrow" wx:for="{{newslist}}" wx:key="{{index}}">
 				 <view class="content">
 				 	<text class="cuIcon-title text-grey"></text>
-				 	<text class="text-grey list_sl">作为一个程序员，如何每天快乐学习，加强自己！</text>
+				 	<text class="text-grey list_sl">{{item.title}}</text>
 				 </view>
 			 </navigator>
 		</view>

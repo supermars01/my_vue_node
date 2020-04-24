@@ -7,7 +7,8 @@
     "pages/news_info/news_info",
     "pages/business_info/business_info",
     "pages/logs/logs",
-    "pages/switchcity/switchcity"
+    "pages/switchcity/switchcity",
+    "pages/search/search"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -16,7 +17,10 @@
     "navigationStyle": "custom",
     "navigationBarTextStyle": "white"
   },
-  "usingComponents": {},
+  "usingComponents": {
+	   "navbar": "/components/navbar/navbar",
+     "back-top": "/components/back-top/back-top"
+  },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
   "tabBar": {

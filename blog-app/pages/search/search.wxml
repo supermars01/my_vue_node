@@ -1,0 +1,22 @@
+<navbar parameter='{{parameter}}'></navbar>
+<view class='searchGood'>
+   <view class='search acea-row row-between-wrapper'>
+      <view class='input acea-row row-between-wrapper'>
+        <text class='cuIcon-search'></text>
+        <input type='text' value='{{searchValue}}' focus="{{focus}}" placeholder='点击搜索商品' placeholder-class='placeholder' bindinput="setValue"></input>
+      </view>
+      <view class='bnt' bindtap='searchBut'>搜索</view>
+   </view>
+   <view class='title'>历史搜索</view>
+   <view class='list acea-row'>
+     <block wx:for="{{storageArr}}" wx:key='{{index}}'>
+      <view class='item' bindtap='setHotSearchValue' data-item="{{item}}" style="border: 1rpx dashed #bdbdbd;">{{item}}</view>
+     </block> 
+     <view class='item' bindtap='clearStorage'>清空</view>
+   </view>
+   <view class='line'></view>
+   <news-car arrlist='{{newslist}}' isTop="true"/>
+</view>
+<view class='noCommodity'>
+   <view class='pictrue' wx:if="{{newslist.length == 0}}"><image src='../../static/images/noSearch.png'></image></view>
+</view>

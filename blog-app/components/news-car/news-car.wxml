@@ -1,0 +1,18 @@
+
+<view class="cu-card article no-card card_border" wx:for='{{arrlist}}'wx:key='{{index}}'>
+    <view class="cu-item shadow" wx:if="{{isTop || item.Top == 1 }}">
+      <view class="title">
+		   <navigator url="{{'../news_info/news_info?id='+item._id}}" class="text-cut"  hover-class="none">{{item.title}} </navigator>
+      </view>
+      <view class="content">
+        <image src="{{item.img}}" mode="aspectFill"></image>
+        <view class="desc">
+          <view class="text-content">{{item.sub_title}}</view>
+          <view>
+            <view class="cu-tag bg-red light sm round">{{item.category}}</view>
+            <!-- <view class="cu-tag bg-green light sm round">史诗</view> -->
+          </view>
+        </view>
+      </view>
+    </view>
+</view>

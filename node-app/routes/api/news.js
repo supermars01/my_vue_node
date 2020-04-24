@@ -61,7 +61,7 @@ router.post("/",async(req,res) => {
     //分页数据
     const page = req.body.page;
     const title = req.body.title || '';
-    const SizeChange = req.body.SizeChange || '5';
+    const SizeChange = req.body.SizeChange || 5;
     console.log(req.body)
     try {
         console.log(flag.test(title))
@@ -74,9 +74,9 @@ router.post("/",async(req,res) => {
         if(page == 0 && title=='') {
             news_list = await mongoHelper.find('news','');
         } else if(page == 0 && title!='') {
-            news_list = await mongoHelper.find('news',condition);
+            news_list = await mongoHelper.find('news',{category:title}); //根据类别搜索到数据
         } else if(page!=0 && title==''){
-            news_list = await mongoHelper.find_limit('news','',page,SizeChange);
+            news_list = await mongoHelper.find_limit('news','',Number(page),Number(SizeChange));
         } else {
             news_list = await mongoHelper.find_limit('news',{title:eval("/"+title+"/i")},page,SizeChange);
         }
@@ -93,8 +93,8 @@ router.post("/",async(req,res) => {
         console.log(error)
     }
 })
-//$route GET api/news
-//@desc 获取单个的数据
+//$route GET api/news/search
+//@desc 搜索数据
 //@access news
 router.post("/search",(req,res) => {
     const title = req.body.title;
@@ -117,6 +117,43 @@ router.delete("/delete",passport.authenticate("jwt",{session:false}),(req,res) =
     .catch(err => res.status(404).json("删除失败"));
 })
 
+//$route POST api/news/newinfo
+//@desc 获取详情页接口
+//@access Private
+router.post("/newinfo",(req,res) => {
+    const id = req.body.id;
+    mongoHelper.findOneById("news",id).then(newinfo => {
+        res.json({status: 1,msg: "获取成功",result: newinfo});
+        let list = {}
+        list.reads = Number(newinfo.reads)+1; //阅读数量
+        mongoHelper.updateOneById('news', req.body.id, list).then(reads => {
+            console.log('阅读成功+1')
+        }).catch(error => console.log(error))
+    })
+    .catch(err => res.status(404).json("获取失败"));
+    
+})
+//$route POST api/news/give
+//@desc 点赞
+//@access Private
+router.post("/give",(req,res) => {
+    const id = req.body.id;
+    let _status = req.body.cood;
+    mongoHelper.findOneById("news",id).then(newinfo => {
+        let list = {}
+        if(_status) {
+            list.give = Number(newinfo.give)+1; //阅读数量
+        } else {
+            list.give = Number(newinfo.give)-1; //阅读数量
+        }
+        
+        mongoHelper.updateOneById('news', req.body.id, list).then(reads => {
+            res.json({status: 1,msg: "操作成功",result: list.give});
+        }).catch(error => res.json({status: 0,msg: "操作失败"}))
+    })
+    .catch(err => res.status(404).json("获取失败"));
+    
+})
 
 // 时间格式化
 function date() {

@@ -125,6 +125,7 @@ function findOneById(collection,id){
  * @param {String} page_num 查询分页中几条数据
  */
 function find_limit(collection,json,page,page_num){
+    console.log(collection,json,page,page_num)
     return new Promise((resolve,reject) => {
         _connect().then(dbClient => {
             dbClient.collection(collection).find(json).skip((page-1)*page_num).limit(page_num).toArray((err,data) => {

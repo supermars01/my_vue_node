@@ -1,35 +1,54 @@
 const app = getApp()
+import { categoryList,newsList } from '../../api/news.js';
 Page({
   data: {
-    // StatusBar: app.globalData.StatusBar,
-    // CustomBar: app.globalData.CustomBar,
-    // Custom: app.globalData.Custom,
     TabCur: 0,
     MainCur: 0,
     VerticalNavTop: 0,
     list: [],
-    load: true
+	list_arry: [],
+    load: true,
+	itemName: '',
   },
   onLoad() {
     wx.showLoading({
       title: '加载中...',
       mask: true
     });
-    let list = [{ name: 'sass', id: 1 }, { name: 'node', id: 2 }, { name: 'node', id: 2 }];
-    this.setData({
-      list: list,
-      listCur: list[0]
-    })
+	this._category_list();
+  },
+  _category_list() {
+	  categoryList().then(res => {
+		  console.log(JSON.stringify(res))
+		  if(res.status == 1) {
+			  this.setData({
+				  list: res.result,
+				  listCur: res.result[0],
+				  itemName: res.result[0].name
+			  })
+		  }
+	  })
   },
   onReady() {
     wx.hideLoading()
   },
-  tabSelect(e) {
-    this.setData({
-      TabCur: e.currentTarget.dataset.id,
-      MainCur: e.currentTarget.dataset.id,
-      VerticalNavTop: (e.currentTarget.dataset.id - 1) * 50
-    })
+  tabSelect(e) { //切换侧边栏
+	 console.log(e.currentTarget.dataset.name)
+		
+	 newsList({page: 0,title: e.currentTarget.dataset.name}).then(res => {
+		 console.log(JSON.stringify(res))
+		 this.setData({
+			 itemName:e.currentTarget.dataset.name,
+			 list_arry: res.result.news_list,
+			 TabCur: e.currentTarget.dataset.id,
+			 MainCur: e.currentTarget.dataset.id,
+		 })
+	 })
+    // this.setData({
+    //   TabCur: e.currentTarget.dataset.id,
+    //   MainCur: e.currentTarget.dataset.id,
+    //   VerticalNavTop: (e.currentTarget.dataset.id - 1) * 50
+    // })
   },
   VerticalMain(e) {
     let that = this;

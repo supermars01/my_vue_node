@@ -6,18 +6,28 @@ const TOKEN = 'token';
 //app.js
 App({
   onLaunch: function () {
-    // 展示本地存储能力
+    //----------------- 展示本地存储能力-----------------
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
      wx.setStorageSync('logs', logs)
   
-    //token取值
+    //-------------------token取值-------------------
     const token = wx.getStorageSync(TOKEN)
     if (token && token.length !==0) { //验证token
       this.check_token(token)
     } else { //不存在token验证通过
       this.login()
     }
+
+    //----------------获取导航高度；-------------------
+    wx.getSystemInfo({
+      success: res => {
+        //导航高度
+        this.globalData.navHeight = res.statusBarHeight * (750 / res.windowWidth) + 97;
+        console.log(this.globalData.navHeight)
+      }, fail(err) { }
+    });
+
   },
   //验证
   check_token(token) {
@@ -70,6 +80,7 @@ App({
   },
   //对象:小程序关闭掉
   globalData:{
-    token: ''
+    token: '',
+    navHeight: 0
   }
 })

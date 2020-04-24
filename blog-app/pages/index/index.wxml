@@ -2,20 +2,7 @@
 	<view slot="content" class="text-white">博客</view>
 </cu-custom>	 -->
 <view class="container">
-   <view class="search">
-    <navigator class="location" url="../switchcity/switchcity?name={{city}}" >{{city}}</navigator>
-    <!-- <button  open-type="openSetting"  bindopensetting="getScopes"> 获取权限</button> -->
-    <!-- <view class="location">惠州</view> -->
-    <navigator url="../search/search" hover-class="navigator-hover">
-      <view class="section">
-        搜索您想要的
-        <!-- <input placeholder="搜索你想要的" /> -->
-      </view>
-      <view class='search-icon' bindtap='search'>
-        <image src='../../static/images/search.png'></image>
-      </view>
-    </navigator>
-  </view>
+  <navbar parameter='{{parameter}}'></navbar>
   <view class='clear'></view>
   <!-- 轮播 -->
   <swiper class="card-swiper square-dot" indicator-dots="{{indicatorDots}}" circular="false" autoplay="true" interval="5000" duration="500" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#F6B340">
@@ -36,7 +23,7 @@
   </view> -->
   <view class="cu-list grid index-menu col-{{gridCol}} {{gridBorder?'':'no-border'}}">
     <view class="cu-item" wx:for="{{10}}" wx:key wx:if="{{index<gridCol*2}}">
-      <navigator url="../business_info/business_info" hover-class="none" class="index-menu-item">
+      <navigator url="../business_info/business_info" hover-class="none" class="index-menu-item"  >
         <image src="http://img.youlemi.net/images/2/2019/11/ZSU1OuGbT1Y4Y1c5S595lcbysUL924.png"></image>
         <text>技术分享</text>
       </navigator>
@@ -44,13 +31,13 @@
   </view>
   <!-- 信息速推 -->
   <view class="info_list">
-    <view class="flex  p-xs margin-bottom-sm mb-sm">
-        <view class="flex-sub  padding-sm margin-xs radius">信息速推</view>
-        <view class="flex-twice  padding-sm margin-xs radius">
+    <view class="flex  p-xs margin-bottom-sm mb-sm ">
+        <view class="padding-sm title_info"><text class="cuIcon-light icon_gray text-blue"></text>信息速推</view>
+        <view class="flex-twice padding-sm ">
           <swiper  autoplay="true" vertical="true" duration="500" interval="5000" style="height: 20px;">
-            <block wx:for="{{3}}" wx:key="*this">
+            <block wx:for="{{newslist}}" wx:key="{{index}}">
               <swiper-item>
-                <text class="info_item">5555kjaska jskjsbaksabcsbcbjbcasbcj5</text>
+				  <navigator url="{{'../news_info/news_info?id='+item._id}}" class="info_item">{{item.title}}</navigator>
               </swiper-item>
             </block>
           </swiper>
@@ -60,31 +47,13 @@
   <!-- 广告 -->
  <view class="picture">
     <navigator url=".." wx:for="{{2}}" wx:key="{{index}}" class="link_avg">
-      <image src="http://uxshop-img.uxphp.net/images/2/2019/12/rxAZ299AP2azr22aAp9RA1o1Aal922.png"></image>
+      <image src="../../static/images/ava.png"></image>
     </navigator>
  </view>
  <!-- 推荐阅读 -->
  <view class="card_reader">
- <text class='cuIcon-titles text-orange read_top'>阅读推荐</text> 
-  <view class="cu-card article no-card card_border" wx:for='{{4}}'wx:key='{{index}}'>
-    <view class="cu-item shadow">
-      <view class="title">
-        <view class="text-cut">无意者 烈火焚身;以正义的烈火拔出黑暗。我有自己的正义，见证至高的烈火吧。</view>
-      </view>
-      <view class="content">
-        <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg" mode="aspectFill"></image>
-        <view class="desc">
-          <view class="text-content"> 折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！</view>
-          <view>
-            <view class="cu-tag bg-red light sm round">正义天使</view>
-            <view class="cu-tag bg-green light sm round">史诗</view>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
- 
- 
+      <text class='cuIcon-titles text-orange read_top'>阅读推荐</text> 
+      <news-car arrlist='{{newslist}}' isTop="false"/>
  </view>
   
 
