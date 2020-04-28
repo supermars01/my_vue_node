@@ -103,7 +103,8 @@ export default {
             busine_category_list: [], //类别
             operation: '',//标题
             goods_logo: '',
-            List2: [],
+            List2:[],
+            zz: [],
             myConfig: {
                 // 编辑器不自动被内容撑高
                 autoHeightEnabled: false,
@@ -178,7 +179,8 @@ export default {
       },
       //上传后的回调
       handleAvatarSuccess(res, file) {
-        this.List2.push(res)
+        console.log(res)
+        this.List2.unshift(res)
         console.log(this.List2);
       },
       //删除的回调
@@ -211,9 +213,8 @@ export default {
       }
   },
   created() {
-      console.log(this.$route.params.state);
+      console.log(this.$route.params);
       if(this.$route.params.form) { //编辑进去进行赋值
-      console.log()
         this.operation = this.$route.params.form.operation;
         this.formLabelAlign = this.$route.params.form;
         console.log(this.$route.params.form.imgList)
