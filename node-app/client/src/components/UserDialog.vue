@@ -62,6 +62,7 @@ export default {
         "manager",
         "employee"
       ],
+      dialog: '',
       form_rules: {
         name: [
           { required: true, message: "用户名不能为空", trigger: "change" },
@@ -83,6 +84,10 @@ export default {
         ]
       }
     };
+  },
+  created() {
+    console.log(55555)
+    console.log(this.dialog);
   },
   methods: {
     onSubmit(form) {

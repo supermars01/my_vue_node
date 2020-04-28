@@ -4,7 +4,7 @@ const router = express.Router(); //接口请求
 const mongoHelper=require("../../models/mongoHelper"); //替代数据模型的调用
 const passport = require("passport");
 const nodeExcel = require('excel-export');
-var flag = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？ ]");
+var flag = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》?~！@#￥……&*（）——|{}【】‘；：”“'。，、？ ]");
 router.get("/test",(req,res) => {
     res.json({msg:"商家入驻"})
 })
@@ -72,8 +72,7 @@ router.post("/add",passport.authenticate("jwt",{session:false}),async(req,res) =
     if (req.body.category) business_list.category = req.body.category; //类别
     if (req.body.title) business_list.title = req.body.title; //标题
     if (req.body.sub_title) business_list.sub_title = req.body.sub_title; //备注
-    if (req.body.jindu) business_list.jindu = req.body.jindu; //经度
-    if (req.body.weidu) business_list.weidu = req.body.weidu; //纬度
+    if (req.body.locs) business_list.locs = req.body.locs; //经度纬度
     if (req.body.imgList) business_list.imgList = req.body.imgList; //商家轮播图
     if (req.body.goodsLogo) business_list.goodsLogo = req.body.goodsLogo; //商家logo
     if (req.body.address) business_list.address = req.body.address; //地址
@@ -91,6 +90,7 @@ router.post("/add",passport.authenticate("jwt",{session:false}),async(req,res) =
         await mongoHelper.insertOne('business',business_list);
         return res.status(200).json(business_list);
     } catch(error) {
+        console.log(error)
         return res.status(404).json(error);
     }
     
@@ -100,18 +100,19 @@ router.post("/add",passport.authenticate("jwt",{session:false}),async(req,res) =
 //@access business
 router.post("/edit",(req,res) => {
     const business_list = {};
+    
     if (req.body.title) business_list.title = req.body.title; //标题
     if (req.body.phone) business_list.phone = req.body.phone; //类别
     if (req.body.category) business_list.category = req.body.category; //类别
     if (req.body.sub_title) business_list.sub_title = req.body.sub_title; //备注
-    if (req.body.jindu) business_list.jindu = req.body.jindu; //经度
-    if (req.body.weidu) business_list.weidu = req.body.weidu; //纬度
+    if (req.body.locs) business_list.locs = req.body.locs; //经度
     if (req.body.imgList) business_list.imgList = req.body.imgList; //商家轮播图
     if (req.body.goodsLogo) business_list.goodsLogo = req.body.goodsLogo; //商家logo
     if (req.body.address) business_list.address = req.body.address; //地址
     if (req.body.content) business_list.content = req.body.content; //内容
     if (req.body.province) business_list.province = req.body.province; //省份
     if (req.body.city) business_list.city = req.body.city; //城市
+    console.log(req.body)
     console.log(JSON.stringify(business_list))
    mongoHelper.updateOneById('business', req.body.id, business_list).then(edit_list => {
        res.json(edit_list)
@@ -176,12 +177,12 @@ router.post("/",async(req,res) => {
         if(page == 0 && title=='') {
             business_list = await mongoHelper.find('business','');
         } else if(page == 0 && title!='') {
-            business_list = await mongoHelper.find('business',condition);
+            business_list = await mongoHelper.find('business',{category:title});
         } else if(page!=0 && title==''){
             console.log(555555)
-            business_list = await mongoHelper.find_limit('business','',page,SizeChange);
+            business_list = await mongoHelper.find_limit('business','',Number(page),Number(SizeChange));
         } else {
-            business_list = await mongoHelper.find_limit('business',{title:eval("/"+title+"/i")},page,SizeChange);
+            business_list = await mongoHelper.find_limit('business',{category:eval("/"+title+"/i")},Number(page),Number(SizeChange));
         }
         //查询总条数 聚合操作
         let total ='';
@@ -228,6 +229,29 @@ router.delete("/delete",(req,res) => {
         res.json('删除成功') 
     })
     .catch(err => res.status(404).json("删除失败"));
+})
+//$route GET api/business/distance
+//@desc 获取距离远近的商家
+//@access business
+router.post("/distance",async(req,res) => {
+    let x = req.body.x //当前你的坐标经度
+    let y = req.body.y //当前你的坐标纬度
+    let distance = req.body.distance //距离
+    console.log(x)
+    try {
+        let r = await mongoHelper.find("business",{locs: {
+        $nearSphere: {
+            $geometry: { //地理定位
+                type: 'Point', //类型，点
+                coordinates:[Number(x),Number(y)] //指定坐标 体育西路小学
+            },
+            $maxDistance: Number(distance)//接受最远的距离 1公里
+        }
+    }})
+    res.json({status: 1,msg: "获取成功",result: r});
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 

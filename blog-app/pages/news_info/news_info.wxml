@@ -43,8 +43,7 @@
               <text class="text-red  icon ">{{infoList.reads}}</text>
             </view>
 						<view class="margin-xs radius">
-							<!-- text-red -->
-							<text class="cuIcon-share lg text-black"></text>
+							<button class="cuIcon-share lg text-black" open-type="share" size="mini"></button>
 						</view>
 					  </view>
 				  </view>

@@ -1,0 +1,46 @@
+
+<block wx:for="{{list}}" wx:for-item="item" wx:key="key">
+  <view class="content">
+    <navigator url="../news_info/news_info" hover-class="navigator-hover">
+      <view class="content_img">
+        <image src="{{item.goodsLogo||'../../static/images/no_img.png'}}" />
+      </view>
+      <view class="content_text">
+        <view class="content_text_title">
+          <text>{{item.title}}</text>
+        </view>
+        <view class="content_text_cente">
+          <text class="text">评分：</text>
+          <view wx:for="{{5}}" wx:key="{{index}}">
+            <view class="content_text_grade">
+              <image src="../../static/images/grade.png" />
+            </view>
+          </view>
+        </view>
+        <view>
+          <view class="address">
+            地址：{{item.address}}
+          </view>
+        </view>
+        <view>
+          <text class="text">距离：</text>
+          <text>{{1200/1000}}公里</text>
+        </view>
+        <view class='progress'>
+          <view class='progress_left'>
+            <progress percent="90" color="red" stroke-width="13" active activeColor="#999" backgroundColor="#fff" />
+          </view>
+       <!--   <view class='progress_right'>{{item.pay_limit}}W</view> -->
+          <view class='pro_per'>90%</view>
+          <view class='pro_dis' wx:if="{{true}}">可用代金券</view>
+        </view>
+      </view> 
+
+    </navigator>
+    <view class="content_icon">
+      <button bindtap="modalcnt" data-id="{{item.tel}}">
+        <image src="../../static/images/phone.png" />
+      </button>
+    </view>
+  </view>  
+</block>

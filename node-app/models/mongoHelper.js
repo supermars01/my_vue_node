@@ -70,6 +70,7 @@ function insertMany(collection,arr){
 function find(collection,json){
     return new Promise((resolve,reject) => {
         _connect().then(dbClient => {
+            dbClient.collection(collection).createIndex({locs:'2dsphere'})
             dbClient.collection(collection).find(json).toArray((err,data) => {
                 if(!err){
                     resolve(data);

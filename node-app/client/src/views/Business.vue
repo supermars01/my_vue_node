@@ -80,16 +80,10 @@
                     width="180">
                 </el-table-column>
                 <el-table-column
-                    prop="jindu"
-                    label="经度"
+                    prop="locs"
+                    label="经纬度"
                     align='center'
-                    width="180">
-                </el-table-column>
-                <el-table-column
-                    prop="weidu"
-                    label="纬度"
-                    align='center'
-                    width="180">
+                    width="360">
                 </el-table-column>
                 <el-table-column
                     prop="address"
@@ -184,7 +178,7 @@ export default {
       form: {
         title:'', 
         sub_title: "",
-        jindu: "",
+        locs: [],
         weidu: "",
         phone: '',
         address: "",
@@ -258,8 +252,7 @@ export default {
         operation: '商家编辑',
         title: row.title, 
         sub_title: row.sub_title,
-        jindu: row.jindu,
-        weidu: row.weidu,
+        locs: row.locs,
         address: row.address,
         phone: row.phone,
         content: row.content,
@@ -286,8 +279,7 @@ export default {
         operation: '商家添加',
         title:'', 
         sub_title: "",
-        jindu: "",
-        weidu: "",
+        locs: [],
         address: "",
         content: "",
         category: "",

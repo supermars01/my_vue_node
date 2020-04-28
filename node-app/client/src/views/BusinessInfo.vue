@@ -12,17 +12,19 @@
                         ></el-option>
                     </el-select>
                 </el-form-item>
+                <el-dialog title="坐标选择" :visible.sync="outerVisible">
+                  <template>
+                      <Map @event="map_change($event)"/> 
+                  </template>
+                </el-dialog>
                 <el-form-item prop="title" label="商家名称" >
                   <el-input v-model="formLabelAlign.title" name="title"></el-input>
                 </el-form-item>
                 <el-form-item  label="备注">
                   <el-input v-model="formLabelAlign.sub_title"></el-input>
                 </el-form-item>
-                <el-form-item prop="jindu" label="经度">
-                  <el-input v-model="formLabelAlign.jindu"></el-input>
-                </el-form-item>
-                <el-form-item prop="weidu" label="纬度">
-                  <el-input v-model="formLabelAlign.weidu"></el-input>
+                <el-form-item prop="locs" label="经纬度" >
+                  <el-input v-model="formLabelAlign.locs"  @click.native="map_btn" disabled></el-input>
                 </el-form-item>
                 <el-form-item  label="电话">
                   <el-input v-model="formLabelAlign.phone"></el-input>
@@ -75,6 +77,7 @@ import {good_add,good_edit,category_list} from '../api/business'
 import {upload} from '../api/upload'
 import '../../public/css/form.styl'
 import VueUeditorWrap from 'vue-ueditor-wrap'
+import Map from '../components/Map'
 import Uetor from "../components/Uetor";
 export default {
     name: 'BusinessInfo',
@@ -93,6 +96,7 @@ export default {
           }
         };
         return {
+            outerVisible: false,
             content_msg: '',
             labelPosition: 'right',
             formLabelAlign: { },
@@ -119,11 +123,8 @@ export default {
               title: [
                 { required: true, message: "商家名称不能为空！", trigger: "blur" }
               ],
-              jindu: [
-                { required: true, message: "经度不能为空！", trigger: "blur" }
-              ],
-              weidu: [
-                { required: true, message: "纬度不能为空！", trigger: "blur" }
+              locs: [
+                { required: true, message: "经纬度不能为空！", trigger: "blur" }
               ],
               // phone: [
               //    {validator: checkPhone, message: "电话格式不正确",trigger: 'blur'}
@@ -136,70 +137,78 @@ export default {
     },
     components: {
       Uetor,
+      Map,
       VueUeditorWrap
     },
     methods: {
-    onSubmit(formLabelAlign) {
-      console.log(this.formLabelAlign)
-      this.formLabelAlign.imgList = this.List2;
-      this.formLabelAlign.goodsLogo = this.goods_logo;
-      console.log(formLabelAlign);
-      this.$refs[formLabelAlign].validate(valid => {
-        if (valid) {
-          console.log(this.formLabelAlign)
-          const url = this.$route.params.state == "add" ? good_add : good_edit;
-          url(this.formLabelAlign).then(res => {
-            // 操作成功
-            this.$message({
-              message: "保存成功！",
-              type: "success"
+      map_change(e) { //经纬度获取
+        var arr = [e.lng,e.lat]
+        this.formLabelAlign.locs = arr
+        this.outerVisible = false
+      },
+      onSubmit(formLabelAlign) {
+        console.log(this.formLabelAlign)
+        this.formLabelAlign.imgList = this.List2;
+        this.formLabelAlign.goodsLogo = this.goods_logo;
+        console.log(formLabelAlign);
+        this.$refs[formLabelAlign].validate(valid => {
+          if (valid) {
+            console.log(this.formLabelAlign)
+            const url = this.$route.params.state == "add" ? good_add : good_edit;
+            url(this.formLabelAlign).then(res => {
+              // 操作成功
+              this.$message({
+                message: "保存成功！",
+                type: "success"
+              });
+              this.$router.push("/Business");
+              this.$emit("update");
             });
-            this.$router.push("/Business");
-            this.$emit("update");
-          });
-        }
-      });
-    },
-
-    beforeUpload(file) {
-        return true;
-    },
-    cancel() {
-       this.$router.push("/Business");
-    },
-    //上传后的回调
-    handleAvatarSuccess(res, file) {
-      this.List2.push(res)
-      console.log(this.List2);
-    },
-    //删除的回调
-    handleRemove(file, fileList) {
-      this.List2=[];
-      console.log(file)
-      console.log(fileList);
-      this.List2 = fileList;
-    },
-    //点击放大图片
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    //商家头像
-    user_logo(e) {
-      console.log(this.List2)
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-      var imgdata = new FormData();
-      imgdata.append('file',files[0]);
-      console.log(imgdata)
-      upload(imgdata).then(res => {
-        console.log(JSON.stringify(res))
-        this.goods_logo = res.data.url;
-      })
-    },
-    handleDownload(file) {
-      console.log(file);
-    }
+          }
+        });
+      },
+      map_btn() {
+        this.outerVisible = true
+      },
+      beforeUpload(file) {
+          return true;
+      },
+      cancel() {
+          this.$router.push("/Business");
+      },
+      //上传后的回调
+      handleAvatarSuccess(res, file) {
+        this.List2.push(res)
+        console.log(this.List2);
+      },
+      //删除的回调
+      handleRemove(file, fileList) {
+        this.List2=[];
+        console.log(file)
+        console.log(fileList);
+        this.List2 = fileList;
+      },
+      //点击放大图片
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      //商家头像
+      user_logo(e) {
+        console.log(this.List2)
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length) return;
+        var imgdata = new FormData();
+        imgdata.append('file',files[0]);
+        console.log(imgdata)
+        upload(imgdata).then(res => {
+          console.log(JSON.stringify(res))
+          this.goods_logo = res.data.url;
+        })
+      },
+      handleDownload(file) {
+        console.log(file);
+      }
   },
   created() {
       console.log(this.$route.params.state);
@@ -218,12 +227,10 @@ export default {
            this.busine_category_list.push(arr[i].name)
         }
       })
-      
   },
 }
 </script>
 <style scoped>
-
 .fillcontain {
   width: 100%;
   height: 100%;

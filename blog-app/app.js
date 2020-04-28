@@ -38,8 +38,9 @@ App({
         token
       },
       success:(res) => {
-        if(!res.data.errCode) {
-          console.log('token有效')
+		  console.log(res.data.errorCode!=1002 || res.data.errorCode!=1003)
+        if(res.data.errorCode!=1002 && res.data.errorCode!=1003) {
+          console.log(res)
           this.globalData.token=token
         } else {
           this.login()

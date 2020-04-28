@@ -1,9 +1,19 @@
+import { business_list, category_list, distance } from '../../api/business.js';
 Page({
 
 	/**
 	 * 页面的初始数据
 	 */
 	data: {
+		page: 1,
+		params: {},
+		list: [],
+		total: 0, //总条数
+		cateSecondList: {}, //二级分类
+		categoryName: '', //类别名称
+		select2: '-1',
+		
+		
 		// content: [],
 		px: [], //排序列表内容
 		qyopen: false, //点击区域筛选滑动弹窗显示效果，默认不显示
@@ -14,118 +24,15 @@ Page({
 		pxshow: true,
 		isfull: false,
 		select1: '',
-		select2: '',
-
 		cateList: {}, //一级分类
-		cateSecondList: {}, //二级分类
+		
 		shownavindex: '',
 		pxIndex: 0,
-		total: 0,
-		page: 1,
+		
+		
 		loading: !0,
-		params: {},
-		list: [{
-			"id": "296",
-			"merchname": "艺雅鲜花店",
-			"logo": "http://img.youlemi.net/images/2/2019/11/Uo77NcA08az7AW3cAmXhz77Bc7bxCx.jpg",
-			"fav_num": "0",
-			"eva_point": 5,
-			"address": "广东省惠州市惠城区丽园雅苑(花边南路西)",
-			"tel": "0752-2396225",
-			"lat": "23.070545",
-			"lng": "114.410675",
-			"jointime": "2019.10.29",
-			"distance": "107549",
-			"percent": 0,
-			"sy_percent": "95.91",
-			"pay_limit": 0.96,
-			"limitmoney": 1,
-			"isaccept": "0"
-		}, {
-			"id": "227",
-			"merchname": "博缘花艺坊",
-			"logo": "http://img.youlemi.net/images/2/2019/05/QJ3Phvi5v48khZVp33ob5KNv2Xjo2I.jpg",
-			"fav_num": "0",
-			"eva_point": 5,
-			"address": "惠州市隆生·半岛广场(惠州市惠城区)",
-			"tel": "13719622950",
-			"lat": "23.08688561981431",
-			"lng": "114.427328458935",
-			"jointime": "2019.05.16",
-			"distance": "109160",
-			"percent": 0,
-			"sy_percent": "92.64",
-			"pay_limit": 0.46,
-			"limitmoney": 0.5,
-			"isaccept": "0"
-		},{
-			"id": "296",
-			"merchname": "艺雅鲜花店",
-			"logo": "http://img.youlemi.net/images/2/2019/11/Uo77NcA08az7AW3cAmXhz77Bc7bxCx.jpg",
-			"fav_num": "0",
-			"eva_point": 5,
-			"address": "广东省惠州市惠城区丽园雅苑(花边南路西)",
-			"tel": "0752-2396225",
-			"lat": "23.070545",
-			"lng": "114.410675",
-			"jointime": "2019.10.29",
-			"distance": "107549",
-			"percent": 0,
-			"sy_percent": "95.91",
-			"pay_limit": 0.96,
-			"limitmoney": 1,
-			"isaccept": "0"
-		}, {
-			"id": "8",
-			"merchname": "博缘花艺坊",
-			"fav_num": "0",
-			"eva_point": 5,
-			"address": "惠州市隆生·半岛广场(惠州市惠城区)",
-			"tel": "13719622950",
-			"lat": "23.08688561981431",
-			"lng": "114.427328458935",
-			"jointime": "2019.05.16",
-			"distance": "109160",
-			"percent": 0,
-			"sy_percent": "92.64",
-			"pay_limit": 0.46,
-			"limitmoney": 0.5,
-			"isaccept": "0"
-		},{
-			"id": "445",
-			"merchname": "艺雅鲜花店",
-			"logo": "http://img.youlemi.net/images/2/2019/11/Uo77NcA08az7AW3cAmXhz77Bc7bxCx.jpg",
-			"fav_num": "0",
-			"eva_point": 5,
-			"address": "广东省惠州市惠城区丽园雅苑(花边南路西)",
-			"tel": "0752-2396225",
-			"lat": "23.070545",
-			"lng": "114.410675",
-			"jointime": "2019.10.29",
-			"distance": "107549",
-			"percent": 0,
-			"sy_percent": "95.91",
-			"pay_limit": 0.96,
-			"limitmoney": 1,
-			"isaccept": "0"
-		}, {
-			"id": "444",
-			"merchname": "博缘花艺坊",
-			"logo": "http://img.youlemi.net/images/2/2019/05/QJ3Phvi5v48khZVp33ob5KNv2Xjo2I.jpg",
-			"fav_num": "0",
-			"eva_point": 5,
-			"address": "惠州市隆生·半岛广场(惠州市惠城区)",
-			"tel": "13719622950",
-			"lat": "23.08688561981431",
-			"lng": "114.427328458935",
-			"jointime": "2019.05.16",
-			"distance": "109160",
-			"percent": 0,
-			"sy_percent": "92.64",
-			"pay_limit": 0.46,
-			"limitmoney": 0.5,
-			"isaccept": "0"
-		}]
+		
+		
 	},
 	// 第一栏选择内容
 	selectleft: function(e) {
@@ -148,50 +55,40 @@ Page({
 			cateSecondList: cateSecondList
 		});
 	},
-	// 中间栏选择的内容
-	selectcenter: function(e) {
-		var id = e.target.dataset.id;
-		var params = {};
-		params.cate = e.target.dataset.id;
-		this.setData({
-			page: 1,
-			list: [],
-			select2: id,
-			params: params
-
-
-		});
-		this.getMerchList();
-	},
+	
 	/**
 	 * 搜索列表
 	 */
 	searchMerchList: function(e) {
-		var params = {};
-		console.log(e);
-		params.order = e.target.dataset.order;
-		params.by = e.target.dataset.by;
-		this.setData({
-			page: 1,
-			list: [],
-			params: params
-
-		});
-		this.getMerchList();
+    var params = {};
+    console.log(e.target.dataset.by);
+    params.x = 113.301849;
+    params.y = 23.130853;
+    params.distance = e.target.dataset.by;
+    distance(params).then(res => {
+      console.log(res);
+      this.setData({
+        list: res.result
+      })
+    })
 	},
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function(options) {
-		this.getnav();
-		console.log(options);
-		var params = {};
-		params.cate = options.id;
-		this.setData({
-			params: params
-		});
-		// this.getMerchList();
-		this.data;
+		this.getMerchList(); //获取内容
+		this.getCategoryList(); //获取列表
+		
+		
+		// this.getnav();
+		// console.log(options);
+		// var params = {};
+		// params.cate = options.id;
+		// this.setData({
+		// 	params: params
+		// });
+		
+		// this.data;
 	},
 	modalcnt: function(res) {
 		console.log(res);
@@ -207,81 +104,63 @@ Page({
 			}
 		})
 	},
+	// 类别数据
+	getCategoryList:function() {
+		category_list().then(res => {
+			console.log(res)
+			this.setData({
+				cateSecondList: res.result
+			})
+		})
+	},
+  
 	/**
 	 * 商家列表
 	 */
 	getMerchList: function() {
-		var march = this;
-		// march.setData({
-		//   loading: !0
-		// }),
-		// march.data.params.page = march.data.page,
-		// march.data.params.areaid = march.data.areaid,
-		// core.get("merch/get_list", march.data.params, function (res) {
-		//   console.log(res);
-		//   var sdata = {
-		//     loading: !1,
-		//     total: res.total
-		//   };
-		//   res.list || (res.list = []),
-		//     res.list.length > 0 && (sdata.page = march.data.page + 1,
-		//       sdata.list = march.data.list.concat(res.list),
-		//       res.list.length < res.pagesize),
-		//     march.setData(sdata);
-		// });
-		var Arr_res = [{
-			"id": "296",
-			"merchname": "艺雅鲜花店",
-			"logo": "http://img.youlemi.net/images/2/2019/11/Uo77NcA08az7AW3cAmXhz77Bc7bxCx.jpg",
-			"fav_num": "0",
-			"eva_point": 5,
-			"address": "广东省惠州市惠城区丽园雅苑(花边南路西)",
-			"tel": "0752-2396225",
-			"lat": "23.070545",
-			"lng": "114.410675",
-			"jointime": "2019.10.29",
-			"distance": "107549",
-			"percent": 0,
-			"sy_percent": "95.91",
-			"pay_limit": 0.96,
-			"limitmoney": 1,
-			"isaccept": "0"
-		}, {
-			"id": "227",
-			"merchname": "博缘花艺坊",
-			"logo": "http://img.youlemi.net/images/2/2019/05/QJ3Phvi5v48khZVp33ob5KNv2Xjo2I.jpg",
-			"fav_num": "0",
-			"eva_point": 5,
-			"address": "惠州市隆生·半岛广场(惠州市惠城区)",
-			"tel": "13719622950",
-			"lat": "23.08688561981431",
-			"lng": "114.427328458935",
-			"jointime": "2019.05.16",
-			"distance": "109160",
-			"percent": 0,
-			"sy_percent": "92.64",
-			"pay_limit": 0.46,
-			"limitmoney": 0.5,
-			"isaccept": "0"
-		}];
-		march.setData({
-			list: Arr_res
+		wx.showLoading({
+		  title: '加载中',
+		})
+		let march = this;
+		march.data.params.page = march.data.page,
+		console.log(march.data.params)
+		business_list(march.data.params).then(res => {
+			console.log(JSON.stringify(res))
+			if(res.result.business_list.length >0) {
+				let page = march.data.page + 1
+				let list = march.data.list.concat(res.result.business_list)
+				march.setData({
+					list: list,
+					total: res.result.pagination.total
+				});
+				wx.hideLoading()
+			} else {
+				wx.hideLoading()
+			}
+		})
+	},
+	// 中间栏选择的内容
+	selectcenter: function(e) {
+		let categoryName = e.target.dataset.name;
+		let index = e.target.dataset.index;
+		let params = {};
+		params.title = e.target.dataset.name;
+		this.setData({
+			page: 1,
+			list: [],
+			categoryName: categoryName,
+			total: 0,
+			select2: index,
+			params: params
 		});
+		this.getMerchList();
 	},
 	/**
 	 * 排序
 	 */
 	bindSort: function(e) {
-		var params = {};
-		console.log(e);
-		params.order = e.target.dataset.order;
-		params.by = e.target.dataset.by;
-		this.setData({
-			page: 1,
-			list: [],
-			params: params
-		});
-		this.getMerchList();
+		
+   
 	},
 
 	//导航列表
